@@ -6,6 +6,10 @@ body,
   margin: 0px;
 }
 
+p {
+  margin-left: 10px;
+}
+
 .chart {
   font-family: Arial, sans-serif;
   font-size: 12px;
