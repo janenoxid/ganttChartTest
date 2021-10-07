@@ -4,7 +4,6 @@ body,
   width: 100%;
   height: 100%;
   margin: 10px;
-  font-family: Calibri, Arial, sans-serif;
 }
 
 p {
@@ -19,7 +18,7 @@ p {
   top: 0px;
   width: 100%;
   height: 72px;
-  border-bottom:rgba(0, 0, 0, 0.5) 1px solid;
+  border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
 }
 
 .chart {
@@ -34,7 +33,6 @@ p {
   stroke: rgb(179, 179, 179);
   shape-rendering: crispEdges;
 }
-
 
 .bar {
   fill: #33b5e5;
