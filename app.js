@@ -20,9 +20,9 @@ var venues = [
 {"startDate":new Date("7/21/2022"),"endDate":new Date("10/24/2022"),"exhibitionName":"Border Cantos","stage":"Approved", "venueName":"Asheville Art Museum"},
 {"startDate":new Date("8/1/2022"),"endDate":new Date("10/31/2022"),"exhibitionName":"Border Cantos","stage":"In Conversation", "venueName":"Van Every / Smith Galleries"},
 {"startDate":new Date("12/19/2022"),"endDate":new Date("4/30/2023"),"exhibitionName":"Border Cantos","stage":"In Conversation", "venueName":"Center for Arts and Letters (Rockhurst)"},
-{"startDate":new Date("3/19/2022"),"endDate":new Date("7/10/2022"),"exhibitionName":"Nellie May Roe","stage":"Application", "venueName":"Springfield Museum of Art"},
-{"startDate":new Date("9/1/2022"),"endDate":new Date("12/31/2022"),"exhibitionName":"Nellie May Roe","stage":"In Conversation", "venueName":"Brooklyn Museum"},
-{"startDate":new Date("1/27/2023"),"endDate":new Date("5/1/2023"),"exhibitionName":"Nellie May Roe","stage":"Application", "venueName":"Hunter Museum of American Art"},
+{"startDate":new Date("3/19/2022"),"endDate":new Date("7/10/2022"),"exhibitionName":"Nellie Mae Rowe","stage":"Application", "venueName":"Springfield Museum of Art"},
+{"startDate":new Date("9/1/2022"),"endDate":new Date("12/31/2022"),"exhibitionName":"Nellie Mae Rowe","stage":"In Conversation", "venueName":"Brooklyn Museum"},
+{"startDate":new Date("1/27/2023"),"endDate":new Date("5/1/2023"),"exhibitionName":"Nellie Mae Rowe","stage":"Application", "venueName":"Hunter Museum of American Art"},
 {"startDate":new Date("8/23/2021"),"endDate":new Date("11/19/2021"),"exhibitionName":"Will Wilson","stage":"Approved", "venueName":"Denison Museum"},
 {"startDate":new Date("7/9/2022"),"endDate":new Date("9/11/2022"),"exhibitionName":"Will Wilson","stage":"Application", "venueName":"Delaware Museum"},
 {"startDate":new Date("10/28/2022"),"endDate":new Date("2/12/2023"),"exhibitionName":"Will Wilson","stage":"Application", "venueName":"Mennello Museum of American Art"},
@@ -52,7 +52,7 @@ var venueStatus = { // can I change this to venue stage? where all does 'taskSta
     "Ineligible" : "bar-ineligible" 
 };
 
-var exhibitionNames = [ "Border Cantos", "American Perspectives", "Black Refractions", "Nellie May Roe", "Will Wilson", "Cross Pollination", "Companion Species" ]; // can I change this to exhibition name? where all does 'taskNames' exist?
+var exhibitionNames = [ "Border Cantos", "American Perspectives", "Black Refractions", "Nellie Mae Rowe", "Will Wilson", "Cross Pollination", "Companion Species" ]; // can I change this to exhibition name? where all does 'taskNames' exist?
 
 venues.sort(function(a, b) {
     return a.endDate - b.endDate;
