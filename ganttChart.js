@@ -42,11 +42,13 @@
     var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
 	    .tickSize(8).tickPadding(8); // this is the same as line 65 but 65 actually seems to work?
 
-    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width);
+    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width)
 
 	let toolTip = d3.select("body").append("div")
 					.attr("class", "tooltip")
 					.style("opacity", 0)
+
+
 
     var initTimeDomain = function() {
 	if (timeDomainMode === FIT_TIME_DOMAIN_MODE) {
@@ -97,7 +99,17 @@
 	.transition()
 	.call(xAxis);
 	
-	svg.append("g").attr("class", "y axis").transition().call(yAxis);
+	let today = new Date();
+svg.append("line")
+		.attr("x1", x(today))  //<<== change your code here
+		.attr("y1", 0)
+		.attr("x2", x(today))  //<<== and here
+		.attr("y2", height - margin.top - margin.bottom)
+		.style("stroke-width", 2)
+		.style("stroke", "red")
+		.style("fill", "none");
+
+	svg.append("g").attr("class", "y axis y-axis").transition().call(yAxis);
 
       svg.selectAll(".chart")
 	 .data(venues, keyFunction).enter()
@@ -118,7 +130,7 @@
 			toolTip.transition()
 			.duration(500)
 			.style("opacity", .85)
-			toolTip.html("<strong>" + d.exhibitionName + " at " + d.venueName + "</strong></br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
+			toolTip.html("<strong>" + d.exhibitionName + " at " + d.venueName + "</strong></br>Stage: " + d.stage + "</br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
 			.style("left", (d3.event.pageX) + "px")
 			.style("top", (d3.event.pageY - 28) + "px")
 		})
