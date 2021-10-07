@@ -16,12 +16,12 @@
     var timeDomainStart = d3.time.day.offset(new Date(),-3); // what is d3.time.day.offset? how does it work?
     var timeDomainEnd = d3.time.hour.offset(new Date(),+3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit --- what does this mean?
-    var exhibitions = []; // how are task types used?
-    var taskStatus = [];
+    var exhibitions = []; 
+    var venueStatus = [];
     var height = document.body.clientHeight - margin.top - margin.bottom-5; //client is the window?
-    var width = document.body.clientWidth + 1000;
+    var width = document.body.clientWidth + 4500;
 
-    var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser?
+    var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
 
     var keyFunction = function(d) {
 	return d.startDate + d.exhibitionName + d.endDate;
@@ -42,11 +42,13 @@
     var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
 	    .tickSize(8).tickPadding(8); // this is the same as line 65 but 65 actually seems to work?
 
-    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width)
 
 	let toolTip = d3.select("body").append("div")
 					.attr("class", "tooltip")
 					.style("opacity", 0)
+
+
 
     var initTimeDomain = function() {
 	if (timeDomainMode === FIT_TIME_DOMAIN_MODE) {
@@ -69,10 +71,10 @@
     var initAxis = function() {
 	x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
 	y = d3.scale.ordinal().domain(exhibitions).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1); /// I don't like rangeRoundBands I don't think. Makes things dumbly tall
-	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(20).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
-		.tickSize(8).tickPadding(8);
+	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(60).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
+		.tickSize(-height + margin.top + margin.bottom).tickPadding(8);
 
-	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width);
     };
     
     function gantt(venues) {
@@ -91,14 +93,32 @@
 	.attr("height", height + margin.top + margin.bottom)
 	.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 	
+	svg.append("g")
+	.attr("class", "x axis")
+	.attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
+	.transition()
+	.call(xAxis);
+	
+	let today = new Date();
+svg.append("line")
+		.attr("x1", x(today))  //<<== change your code here
+		.attr("y1", 0)
+		.attr("x2", x(today))  //<<== and here
+		.attr("y2", height - margin.top - margin.bottom)
+		.style("stroke-width", 2)
+		.style("stroke", "red")
+		.style("fill", "none");
+
+	svg.append("g").attr("class", "y axis y-axis").transition().call(yAxis);
+
       svg.selectAll(".chart")
 	 .data(venues, keyFunction).enter()
 	 .append("rect")
-	 .attr("rx", 5)
-         .attr("ry", 5)
+	 .attr("rx", 2)
+         .attr("ry", 2)
 	 .attr("class", function(d){ 
-	     if(taskStatus[d.status] == null){ return "bar";}
-	     return taskStatus[d.status];
+	     if(venueStatus[d.stage] == null){ return "bar";}
+	     return venueStatus[d.stage];
 	     }) 
 	 .attr("y", 15) // this is where to change the height of the bar vs. the label.
 	 .attr("transform", rectTransform)
@@ -110,7 +130,7 @@
 			toolTip.transition()
 			.duration(500)
 			.style("opacity", .85)
-			toolTip.html("<strong>" + d.exhibitionName + "</strong></br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
+			toolTip.html("<strong>" + d.exhibitionName + " at " + d.venueName + "</strong></br>Stage: " + d.stage + "</br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
 			.style("left", (d3.event.pageX) + "px")
 			.style("top", (d3.event.pageY - 28) + "px")
 		})
@@ -121,13 +141,7 @@
 		});
 	 
 	 
-	 svg.append("g")
-	 .attr("class", "x axis")
-	 .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
-	 .transition()
-	 .call(xAxis);
-	 
-	 svg.append("g").attr("class", "y axis").transition().call(yAxis);
+
 	 
 	 return gantt;
 
@@ -148,8 +162,8 @@
          .attr("rx", 5)
          .attr("ry", 5)
 	 .attr("class", function(d){ 
-	     if(taskStatus[d.status] == null){ return "bar";}
-	     return taskStatus[d.status];
+	     if(venueStatus[d.stage] == null){ return "bar";}
+	     return venueStatus[d.stage];
 	     }) 
 	 .transition()
 	 .attr("y", 0)
@@ -208,10 +222,10 @@
 	return gantt;
     };
     
-    gantt.taskStatus = function(value) {
+    gantt.venueStatus = function(value) {
 	if (!arguments.length)
-	    return taskStatus;
-	taskStatus = value;
+	    return venueStatus;
+	venueStatus = value;
 	return gantt;
     };
 

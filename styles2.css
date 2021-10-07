@@ -5,10 +5,6 @@ body {
   overflow-y: scroll;
 }
 
-p {
-  margin-left: 10px;
-}
-
 a {
   color: steelblue;
   text-decoration: none;
@@ -75,7 +71,7 @@ a:hover {
 h1 {
   font-size: 36px;
   font-weight: 300;
-  margin-bottom: 0.3em;
+  margin-bottom: 10px;
 }
 
 .sidebar {
