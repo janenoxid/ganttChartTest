@@ -14,33 +14,49 @@ body,
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: rgb(179, 179, 179);
   shape-rendering: crispEdges;
 }
 
 .bar {
   fill: #33b5e5;
+  stroke: rgba(0, 0, 0, 0.5);
 }
 
-.bar-failed {
-  fill: #cc0000;
+.bar-canceled {
+  fill: #a1a1a1a1;
+  stroke: rgba(0, 0, 0, 0.5);
 }
 
-.bar-running {
+.bar-approved {
   fill: #669900;
+  stroke: rgba(0, 0, 0, 0.5);
 }
 
-.bar-succeeded {
-  fill: #33b5e5;
+.bar-completed {
+  fill: #3e6fb9;
+  stroke: rgba(0, 0, 0, 0.5);
 }
 
-.bar-killed {
-  fill: #ffbb33;
+.bar-ineligible {
+  fill: #8077679f;
+  stroke: rgba(0, 0, 0, 0.5);
+}
+
+.bar-conversation {
+  fill: rgba(255, 136, 0, 0.719);
+  stroke: rgba(0, 0, 0, 0.5);
+  opacity: 75%;
+}
+
+.bar-application {
+  fill: #b4e62b;
+  stroke: rgba(0, 0, 0, 0.5);
 }
 
 div.tooltip {
   position: absolute;
-  max-width: 400px;
+  width: 200px;
   max-height: 300px;
   padding: 5px;
   background-color: white;
