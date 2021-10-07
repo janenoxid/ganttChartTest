@@ -47,12 +47,12 @@ p {
 }
 
 .bar-approved {
-  fill: #669900;
+  fill: #afd85c;
   stroke: rgba(0, 0, 0, 0.5);
 }
 
 .bar-completed {
-  fill: #3e6fb9;
+  fill: #8ab4f1;
   stroke: rgba(0, 0, 0, 0.5);
 }
 

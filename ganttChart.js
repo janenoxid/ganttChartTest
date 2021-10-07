@@ -126,7 +126,7 @@ svg.append("line")
 	 .attr("width", function(d) { 
 	     return (x(d.endDate) - x(d.startDate)); 
 	     })
-		 .on("mouseover", function(d){
+		 .on("dblclick", function(d){
 			toolTip.transition()
 			.duration(500)
 			.style("opacity", .85)
@@ -134,7 +134,7 @@ svg.append("line")
 			.style("left", (d3.event.pageX) + "px")
 			.style("top", (d3.event.pageY - 28) + "px")
 		})
-		.on("mouseout", function(d){
+		.on("click", function(d){
 			toolTip.transition()
 				.duration(300)
 				.style("opacity",0);
