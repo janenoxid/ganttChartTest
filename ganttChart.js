@@ -19,7 +19,7 @@
     var exhibitions = []; // how are task types used?
     var taskStatus = [];
     var height = document.body.clientHeight - margin.top - margin.bottom-5; //client is the window?
-    var width = document.body.clientWidth + 1000;
+    var width = document.body.clientWidth + 4500;
 
     var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser?
 
@@ -42,7 +42,7 @@
     var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
 	    .tickSize(8).tickPadding(8); // this is the same as line 65 but 65 actually seems to work?
 
-    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width);
 
 	let toolTip = d3.select("body").append("div")
 					.attr("class", "tooltip")
@@ -69,10 +69,10 @@
     var initAxis = function() {
 	x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
 	y = d3.scale.ordinal().domain(exhibitions).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1); /// I don't like rangeRoundBands I don't think. Makes things dumbly tall
-	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(20).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
-		.tickSize(8).tickPadding(8);
+	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(60).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
+		.tickSize(-height).tickPadding(8);
 
-	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width);
     };
     
     function gantt(venues) {
@@ -91,6 +91,14 @@
 	.attr("height", height + margin.top + margin.bottom)
 	.attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 	
+	svg.append("g")
+	.attr("class", "x axis")
+	.attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
+	.transition()
+	.call(xAxis);
+	
+	svg.append("g").attr("class", "y axis").transition().call(yAxis);
+
       svg.selectAll(".chart")
 	 .data(venues, keyFunction).enter()
 	 .append("rect")
@@ -110,7 +118,7 @@
 			toolTip.transition()
 			.duration(500)
 			.style("opacity", .85)
-			toolTip.html("<strong>" + d.exhibitionName + "</strong></br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
+			toolTip.html("<strong>" + d.exhibitionName + " at " + d.venueName + "</strong></br>Start Date: " + formatDate(d.startDate) + "</br>End Date: " + formatDate(d.endDate))
 			.style("left", (d3.event.pageX) + "px")
 			.style("top", (d3.event.pageY - 28) + "px")
 		})
@@ -121,13 +129,7 @@
 		});
 	 
 	 
-	 svg.append("g")
-	 .attr("class", "x axis")
-	 .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
-	 .transition()
-	 .call(xAxis);
-	 
-	 svg.append("g").attr("class", "y axis").transition().call(yAxis);
+
 	 
 	 return gantt;
 

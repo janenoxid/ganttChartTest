@@ -40,8 +40,8 @@ body,
 
 div.tooltip {
   position: absolute;
-  max-width: 200px;
-  height: auto;
+  max-width: 400px;
+  max-height: 300px;
   padding: 5px;
   background-color: white;
   border-radius: 5px;
