@@ -5,10 +5,6 @@ body {
   overflow-y: scroll;
 }
 
-p {
-  margin-left: 10px;
-}
-
 a {
   color: steelblue;
   text-decoration: none;
