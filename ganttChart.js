@@ -18,7 +18,7 @@
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit --- what does this mean?
     var exhibitions = []; 
     var venueStatus = [];
-    var height = document.body.clientHeight - margin.top - margin.bottom-5; //client is the window?
+    var height = 400; //client is the window? used to be -->  document.body.clientHeight - margin.top - margin.bottom-5
     var width = document.body.clientWidth + 4500;
 
     var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
