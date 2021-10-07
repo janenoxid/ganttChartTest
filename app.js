@@ -52,6 +52,12 @@ var venueStatus = { // can I change this to venue stage? where all does 'taskSta
     "Ineligible" : "bar-ineligible" 
 };
 
+let projectManager = {
+    "Jessica" : "pm-jessica", 
+    "Chris" : "pm-chris",
+    "Jamie" : "pm-jamie"
+}
+
 var exhibitionNames = [ "Border Cantos", "American Perspectives", "Black Refractions", "Nellie Mae Rowe", "Will Wilson", "Cross Pollination", "Companion Species" ]; // can I change this to exhibition name? where all does 'taskNames' exist?
 
 venues.sort(function(a, b) {
