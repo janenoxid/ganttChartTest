@@ -16,12 +16,12 @@
     var timeDomainStart = d3.time.day.offset(new Date(),-3); // what is d3.time.day.offset? how does it work?
     var timeDomainEnd = d3.time.hour.offset(new Date(),+3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit --- what does this mean?
-    var exhibitions = []; // how are task types used?
+    var exhibitions = []; 
     var venueStatus = [];
     var height = document.body.clientHeight - margin.top - margin.bottom-5; //client is the window?
     var width = document.body.clientWidth + 4500;
 
-    var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser?
+    var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
 
     var keyFunction = function(d) {
 	return d.startDate + d.exhibitionName + d.endDate;
