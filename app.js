@@ -10,7 +10,7 @@ var venues = [
 {"startDate":new Date("1/17/2020"),"endDate":new Date("4/12/2020"),"exhibitionName":"Black Refractions","stage":"Completed", "venueName":"Smith College Museum of Art"},
 {"startDate":new Date("1/13/2021"),"endDate":new Date("4/10/2021"),"exhibitionName":"Black Refractions","stage":"Completed", "venueName":"Utah Museum of Fine Arts"},
 {"startDate":new Date("5/22/2021"),"endDate":new Date("8/15/2021"),"exhibitionName":"Black Refractions","stage":"Approved", "venueName":"Frye Art Museum"},
-{"startDate":new Date("2/18/2017"),"endDate":new Date("4/24/2017"),"exhibitionName":"Border Cantos","stage":"Completed", "venueName":"Crystal Bridges Museum of American Art"},
+{"startDate":new Date("2/18/2017"),"endDate":new Date("4/24/2017"),"exhibitionName":"Border Cantos","stage":"Completed", "venueName":"Crystal Bridges"},
 {"startDate":new Date("8/10/2018"),"endDate":new Date("12/9/2018"),"exhibitionName":"Border Cantos","stage":"Completed", "venueName":"Amarillo Art Museum"},
 {"startDate":new Date("1/18/2019"),"endDate":new Date("3/24/2019"),"exhibitionName":"Border Cantos","stage":"Completed", "venueName":"Samek Art Museum"},
 {"startDate":new Date("5/28/2019"),"endDate":new Date("9/21/2019"),"exhibitionName":"Border Cantos","stage":"Completed", "venueName":"Missoula Art Museum"},
@@ -69,7 +69,7 @@ venues.sort(function(a, b) {
 });
 var minDate = venues[0].startDate;
 
-var format = "%b '%y"; // this is where I change the format -- not in the other file, apparently. 
+var format = "%e %b %y"; // this is where I change the format -- not in the other file, apparently. 
 
 var gantt = d3.gantt().exhibitions(exhibitionNames).venueStatus(venueStatus).tickFormat(format);
 gantt(venues);

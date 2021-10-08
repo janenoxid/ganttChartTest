@@ -25,7 +25,7 @@
 
 	// --- Setting the dimensions of the chart
     let height = 400; //client is the window? used to be -->  document.body.clientHeight - margin.top - margin.bottom-5
-    let width = document.body.clientWidth + 4500;
+    let width = document.body.clientWidth + 9000;
 
 	// --- How the date (or time) shows up in the x axis
     let tickFormat = "%b '%y"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
@@ -97,8 +97,9 @@
 	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(60).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
 		.tickSize(-height + margin.top + margin.bottom).tickPadding(8);
 
-	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width);
+	yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width).tickPadding(8);
     };
+
     
     function gantt(venues) {
 	
@@ -179,7 +180,7 @@
 			x: 5, 
 			"max-width": function(d){return d.endDate - d.startDate}
 		})		
-		.text(function(d){return d.venueName;})
+		.text(function(d){return d.venueName + ": " + formatDate(d.startDate) + " - " + formatDate(d.endDate);})
 
 
 	 
