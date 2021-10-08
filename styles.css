@@ -21,9 +21,18 @@ p {
   border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
 }
 
+#header h1,
+#header p {
+  display: inline-table;
+}
+
+#header p {
+  margin-left: 100px;
+}
+
 .labels {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
+  font-size: 9px;
 }
 
 .chart {
@@ -73,6 +82,18 @@ p {
 .bar-application {
   fill: #ffd900;
   stroke: rgba(0, 0, 0, 0.5);
+}
+
+.pm-jessica {
+  fill: pink;
+}
+
+.pm-chris {
+  fill: purple;
+}
+
+.pm-jamie {
+  fill: blue;
 }
 
 div.tooltip {

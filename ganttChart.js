@@ -36,15 +36,10 @@
 	return d.startDate + d.exhibitionName + d.venueName + d.endDate; // in Salesforce I don't think I'll need this because there's a unique ID
     };
 
-	// --- This formats the dates for the tooltips or labels that show up
-	let formatDate = function(date) {
-		return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
-	}
-
 	// --- I don't fully get how this functions yet. I need to research "translate" -- I think that's how it gets moved? 
     let rectTransform = function(d) {
-	return "translate(" + x(d.startDate) + "," + y(d.exhibitionName) + ")"; // what does this do??
-    };
+		return "translate(" + x(d.startDate) + "," + y(d.exhibitionName) + ")"; // what does this do??
+		};
 
 
 	// --- I don't fully understand this yet either. I need to research like every function in here. 
@@ -71,6 +66,11 @@
 	let toolTip = d3.select("body").append("div")
 					.attr("class", "tooltip")
 					.style("opacity", 0)
+
+	// --- This formats the dates for the tooltips or labels that show up
+	let formatDate = function(date) {
+		return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
+	}
 	
 
     var initTimeDomain = function() {
@@ -153,7 +153,7 @@
 	 .attr("width", function(d) { 
 	     return (x(d.endDate) - x(d.startDate)); 
 	     })
-		 .on("dblclick", function(d){
+		 .on("mouseover", function(d){
 			toolTip.transition()
 			.duration(500)
 			.style("opacity", .85)
@@ -161,22 +161,26 @@
 			.style("left", (d3.event.pageX) + "px")
 			.style("top", (d3.event.pageY - 28) + "px")
 		})
-		.on("click", function(d){
+		.on("mouseout", function(d){
 			toolTip.transition()
 				.duration(300)
+				.delay(4000)
 				.style("opacity",0);
 		})
 
 
 
-		/// I haven't gotten these to work yet :( 
-			let labels = svg.selectAll(".chart").data(venues).enter()
-			.append("text")
-			.attr({
-				class: "labels",
-				transform: rectTransform
-			})		
-			.text(function(d){return d.exhibitionName + " at " + d.venueName;})
+		let labels = svg.selectAll(".chart").data(venues).enter()
+		.append("text")
+		.attr({
+			class: "labels",
+			transform: rectTransform,
+			y: 25,
+			x: 5, 
+			"max-width": function(d){return d.endDate - d.startDate}
+		})		
+		.text(function(d){return d.venueName;})
+
 
 	 
 	 return gantt;
