@@ -1,54 +1,77 @@
-/**
- * @author Dimitry Kudrayvtsev
- * @version 2.0
- */
-
+ 
+ // --- I don't know what having d3 in front of this does or how it functions
  d3.gantt = function() {
+
+	// --- Not sure what this does yet
     var FIT_TIME_DOMAIN_MODE = "fit";
     var FIXED_TIME_DOMAIN_MODE = "fixed";
     
-    var margin = {
+    // --- Margin around chart
+	var margin = { 
 	top : 20,
 	right : 40,
 	bottom : 20,
 	left : 150
     };
-    var timeDomainStart = d3.time.day.offset(new Date(),-3); // what is d3.time.day.offset? how does it work?
+
+	// --- Setting time domain -- want to understand this better
+    var timeDomainStart = d3.time.day.offset(new Date(),-3); // what is d3.time.day.offset? how does it work? -- new Date() makes it today
     var timeDomainEnd = d3.time.hour.offset(new Date(),+3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit --- what does this mean?
-    var exhibitions = []; 
-    var venueStatus = [];
-    var height = 400; //client is the window? used to be -->  document.body.clientHeight - margin.top - margin.bottom-5
-    var width = document.body.clientWidth + 4500;
 
-    var tickFormat = "%H:%M"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
+	// --- Initializing data variables
+    let exhibitions = []; 
+    let venueStatus = [];
 
-    var keyFunction = function(d) {
-	return d.startDate + d.exhibitionName + d.endDate;
+	// --- Setting the dimensions of the chart
+    let height = 400; //client is the window? used to be -->  document.body.clientHeight - margin.top - margin.bottom-5
+    let width = document.body.clientWidth + 4500;
+
+	// --- How the date (or time) shows up in the x axis
+    let tickFormat = "%b '%y"; // I played with changing this, but it didn't reflect in the browser? -- done in app.js
+
+
+	// --- I think this is meant to set up a primary key, which we don't really need with Salesforce since it has a unique ID already
+    const keyFunction = function(d) {
+	return d.startDate + d.exhibitionName + d.venueName + d.endDate; // in Salesforce I don't think I'll need this because there's a unique ID
     };
 
+	// --- This formats the dates for the tooltips or labels that show up
 	let formatDate = function(date) {
 		return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
 	}
 
-    var rectTransform = function(d) {
-	return "translate(" + x(d.startDate) + "," + y(d.exhibitionName) + ")";
+	// --- I don't fully get how this functions yet. I need to research "translate" -- I think that's how it gets moved? 
+    let rectTransform = function(d) {
+	return "translate(" + x(d.startDate) + "," + y(d.exhibitionName) + ")"; // what does this do??
     };
 
-    var x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
 
-    var y = d3.scale.ordinal().domain(exhibitions).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1);
+	// --- I don't fully understand this yet either. I need to research like every function in here. 
+	// --- It looks like this variable helps set up the scale in the xAxis variable. 
+	// --- I need to better understand the setup of those timeDomainStart and End variables. I also don't get "clamp"
+    let x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
+
+	// --- Again - I don't really understand what's going on here. Need to research these functions.
+	// --- This variable helps set up the yAxis variable
+    let y = d3.scale.ordinal().domain(exhibitions).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1);
     
-    var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
-	    .tickSize(8).tickPadding(8); // this is the same as line 65 but 65 actually seems to work?
+	// --- The original code assigned the variable here, but it doesn't seem like it really needs to be assigned until later? 
+    // let xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format(tickFormat)).tickSubdivide(true)
+	//     .tickSize(8).tickPadding(8); // this is the same as later in the code, but the later code actually seems to work? I guess this initializes the variable and the later code assigns it...? 
+	
 
-    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width)
+	let xAxis;
+
+	// --- The original code assigned the variable here, but it doesn't seem like it really needs to be assigned until later? 
+    // let yAxis = d3.svg.axis().scale(y).orient("left").tickSize(-width)
+
+	let yAxis;
 
 	let toolTip = d3.select("body").append("div")
 					.attr("class", "tooltip")
 					.style("opacity", 0)
-
-
+	
 
     var initTimeDomain = function() {
 	if (timeDomainMode === FIT_TIME_DOMAIN_MODE) {
@@ -68,7 +91,7 @@
 	}
     };
 
-    var initAxis = function() {
+    let initAxis = function() {
 	x = d3.time.scale().domain([ timeDomainStart, timeDomainEnd ]).range([ 0, width ]).clamp(true);
 	y = d3.scale.ordinal().domain(exhibitions).rangeRoundBands([ 0, height - margin.top - margin.bottom ], .1); /// I don't like rangeRoundBands I don't think. Makes things dumbly tall
 	xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(60).tickFormat(d3.time.format(tickFormat)).tickSubdivide(true) // this is where I can edit the number of x-axis ticks
@@ -99,8 +122,10 @@
 	.transition()
 	.call(xAxis);
 	
+
+	// Add "Today" vertical line
 	let today = new Date();
-svg.append("line")
+	svg.append("line")
 		.attr("x1", x(today))  //<<== change your code here
 		.attr("y1", 0)
 		.attr("x2", x(today))  //<<== and here
@@ -111,7 +136,9 @@ svg.append("line")
 
 	svg.append("g").attr("class", "y axis y-axis").transition().call(yAxis);
 
-      svg.selectAll(".chart")
+
+
+	let rect = svg.selectAll(".chart")
 	 .data(venues, keyFunction).enter()
 	 .append("rect")
 	 .attr("rx", 2)
@@ -120,7 +147,7 @@ svg.append("line")
 	     if(venueStatus[d.stage] == null){ return "bar";}
 	     return venueStatus[d.stage];
 	     }) 
-	 .attr("y", 15) // this is where to change the height of the bar vs. the label.
+	 .attr("y", 12) // this is where to change the height of the bar vs. the label.
 	 .attr("transform", rectTransform)
 	 .attr("height", 20) // formerly ---> function(d) { return y.rangeBand(); }
 	 .attr("width", function(d) { 
@@ -138,16 +165,25 @@ svg.append("line")
 			toolTip.transition()
 				.duration(300)
 				.style("opacity",0);
-		});
-	 
-	 
+		})
+
+
+
+		/// I haven't gotten these to work yet :( 
+			let labels = svg.selectAll(".chart").data(venues).enter()
+			.append("text")
+			.attr({
+				class: "labels",
+				transform: rectTransform
+			})		
+			.text(function(d){return d.exhibitionName + " at " + d.venueName;})
 
 	 
 	 return gantt;
 
-    };
+    }
     
-    gantt.redraw = function(venues) {
+    gantt.redraw = function(venues) { // when is this used? when do we have to redraw?? when the data is
 
 	initTimeDomain();
 	initAxis();
@@ -159,8 +195,8 @@ svg.append("line")
         
         rect.enter()
          .insert("rect",":first-child")
-         .attr("rx", 5)
-         .attr("ry", 5)
+         .attr("rx", 2)
+         .attr("ry", 2)
 	 .attr("class", function(d){ 
 	     if(venueStatus[d.stage] == null){ return "bar";}
 	     return venueStatus[d.stage];
@@ -174,11 +210,13 @@ svg.append("line")
 	     });
 
         rect.transition()
-          .attr("transform", rectTransform)
-	 .attr("height", 20) //function(d) { return y.rangeBand(); }
-	 .attr("width", function(d) { 
-	     return (x(d.endDate) - x(d.startDate)); 
-	     });
+        	.attr("transform", rectTransform)
+			.attr("height", 20) //function(d) { return y.rangeBand(); }
+			.attr("width", function(d) { 
+				return (x(d.endDate) - x(d.startDate)); 
+			});
+
+
         
 	rect.exit().remove();
 
